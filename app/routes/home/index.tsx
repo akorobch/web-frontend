@@ -1,4 +1,7 @@
 import type { Route } from "./+types/index";
+import FeaturedProjects from "~/components/FeaturedProjects";
+import type { Project } from '~/types';
+import AboutPreview from "~/components/AboutPreview";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -7,11 +10,22 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
-    const name = "Alex";
-    const pitch = "I build cloud application environments and help others improve their DevOps skills";
+export async function loader({ request }:Route.LoaderArgs): Promise<{projects:Project[]}> {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/projects`);
+  const data = await res.json();
 
+  return {projects: data};
+}
+
+const HomePage = ({ loaderData }:Route.ComponentProps) => {
+  const { projects } = loaderData;
+  console.log(projects);
     return (
-        <>Homepage</>
+      <>
+        <FeaturedProjects projects={projects} count={3} />
+        <AboutPreview/>
+      </>
     );
 }
+
+export default HomePage;
