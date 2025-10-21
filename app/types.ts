@@ -17,6 +17,7 @@ export type Post = {
     excerpt: string;
     date: string;
     image: string;
+    body: string;
 }
 
 export type StrapiResponse<T> = {
