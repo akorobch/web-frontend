@@ -27,7 +27,7 @@ export const links: Route.LinksFunction = () => [
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "The friendly DevOps guy" },
-    { name: "description", content: "DevOps Cloud and Platform Engineering" },
+    { name: "description", content: "DevOps Cloud and Platform Engineering - personal site with resume, work samples and blog" },
   ];
 }
 
@@ -42,8 +42,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Navbar />
-        <main>
-        {children}
+        <main className='min-h-screen max-w-6xl mx-auto px-4 my-8'>
+        {children} 
         </main>
         <ScrollRestoration />
         <Scripts />
@@ -53,7 +53,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <Outlet />
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

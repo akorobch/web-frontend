@@ -3,15 +3,31 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: "Verdana", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-primary: #9333ea;
+  --color-secondary: #64748b;
+
+  --color-bg: #ffffff;
+  --color-text: #0f172a;
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-gray-100 text-gray-900 font-sans;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  color-scheme: light;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f3f4f6 !important; /* Tailwind text-gray-100 */
+  box-shadow: 0 0 0px 1000px #4b5563 inset !important; /* Tailwind bg-gray-600 */
+  transition: background-color 5000s ease-in-out 0s; /* prevent flash */
 }

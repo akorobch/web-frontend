@@ -10,7 +10,7 @@ export function meta({}: Route.MetaArgs) {
 
 const MainLayout = () => {
     return (  <>
-                <section className='max-w-6xl mx-auto px-6 my-8 bg-black text-white'>
+                <section className='max-w-6xl mx-auto px-6 my-8 bg-white text-black'>
                     <Outlet />
                 </section>
             </>);
