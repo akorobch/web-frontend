@@ -11,7 +11,7 @@ const Navbar = () => {
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
             <NavLink to='/' className='flex items-center gap-2 text-lg font-bold text-blue-300'>
                 <FaLaptopCode className="text-blue-500 text-3xl" />
-                <span>The friendly DevOps and Automation guy</span>
+                <span>Friendly DevOps and Automation Guy</span>
             </NavLink>
             {/* Desktop Nav */}
             <div className='hidden md:flex items-center gap-6 text-md text-gray-300 font-semibold'>

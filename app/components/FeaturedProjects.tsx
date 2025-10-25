@@ -10,8 +10,8 @@ const FeaturedProjects = ({ projects, count = 4 }:FeaturedProjectsProps) => {
     if (projects.length === 0) return null;
     
     return (  <section>
-        <h2 className="text-3xl font-bold mb-6 text-gray-600">
-            🌟Featured Projects
+        <h2 className="text-3xl font-bold mt-24 mb-6 text-gray-600">
+            🌟Featured Projects 🧑🏻‍💻
         </h2>
         <div className="grid gap-6 sm:grid-cols-2">
             {projects.map((project) => (

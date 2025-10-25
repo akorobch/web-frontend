@@ -11,8 +11,7 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ request }: Route.LoaderArgs): Promise<{ projects: Project[]; posts: Post[] }> {
-  const url = new URL(request.url);
+export async function loader(): Promise<{ projects: Project[]; posts: Post[] }> {
   const [projectRes, postRes] = await Promise.all([
     fetch(`${
         import.meta.env.VITE_API_URL
@@ -61,11 +60,12 @@ const posts = postsJson.data.map((item) => ({
 
 const HomePage = ({ loaderData }: Route.ComponentProps) => {
   const { projects, posts } = loaderData;
+
   return (
     <>
       <FeaturedProjects projects={projects} count={3} />
+      <LatestPosts posts={posts} limit={4} />
       <AboutPreview />
-      <LatestPosts posts={posts} limit={5} />
     </>
   );
 }

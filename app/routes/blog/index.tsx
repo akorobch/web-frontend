@@ -5,11 +5,10 @@ import PostCard from '~/components/PostCard';
 import Pagination from "~/components/Pagination";
 import PostFilter from "~/components/PostFilter";
 
-export async function loader({ request }: Route.LoaderArgs): Promise<{ posts: Post[] }> {
+export async function loader(): Promise<{ posts: Post[] }> {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/posts?populate=image&sort=date:desc`);
 
     if (!res.ok) throw new Error('Failed to fetch data');
-    console.log(res);
     const json: StrapiResponse<StrapiPost> = await res.json();
     const posts = json.data.map((item) => ({
         id: item.id,
@@ -46,9 +45,9 @@ const BlogPage = ({ loaderData }: Route.ComponentProps) => {
     const indexOfFirst = indexOfLast - postsPerPage;
     const currentPosts = filteredPosts.slice(indexOfFirst, indexOfLast);
 
-    return (<div className='max-w-3xl mt-10 px-10 px-6 py-6 bg-gray-900'>
-        <h2 className="text-3xl font-bold text-white-800 mb-8">
-            ✍️ My Blog
+    return (<div className='max-w-3xl mt-12 px-6 py-6 bg-gray-200'>
+        <h2 className="text-4xl font-bold text-white-800 mb-12">
+            ✍️ Thought of the Day 🤔
         </h2>
         <PostFilter searchQuery={searchQuery}
             onSearchChange={(query) => {
@@ -58,7 +57,7 @@ const BlogPage = ({ loaderData }: Route.ComponentProps) => {
 
         <div className="space-y-8">
             {currentPosts.length === 0 ? (
-                <p className="text-gray-400 text-center">
+                <p className="text-gray-800">
                     No posts found
                 </p>
             ) : currentPosts.map((post) => (

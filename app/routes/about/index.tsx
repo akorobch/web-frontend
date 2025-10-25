@@ -26,11 +26,13 @@ const AboutPage = () => {
             <h2 className="text-2xl font-semibold text-green-600 mb-4">
                 🚀 My stack 🥞
             </h2>
-            <ul className="flex flex-wrap gap-6 text-md text-gray-200">
+            <ul className="flex flex-wrap text-md text-gray-200 justify-between">
                 {
                     [
                         'Linux',
                         'GCP',
+                        'GIT',
+                        'Podman',
                         'Kubernetes',
                         'Ansible',
                         'Terraform',

@@ -1,7 +1,4 @@
-import type { Route } from "./+types";
-
-const ContactPage = ({ actionData }: Route.ComponentProps) => {
-
+const ContactPage = () => {
     const labelClass = "block text-medium font-semibold text-green-600";
     const inputClass = "w-full mt-1 px-4 py-2 border border-gray-700 rounded-lg bg-gray-500 font-semibold text-gray-100";
 

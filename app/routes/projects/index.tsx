@@ -13,15 +13,11 @@ export function meta({ }: Route.MetaArgs) {
     ];
 }
 
-export async function loader({ request }: Route.LoaderArgs):
-    Promise<{ projects: Project[] }> {
-
+export async function loader(): Promise<{ projects: Project[] }> {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/projects?populate=*`);
     const json:StrapiResponse<StrapiProject> = await res.json();
 
     const projects = json.data.map((item) => {
-        console.log(`${import.meta.env.VITE_STRAPI_URL}`);
-        console.log(item.featured);
 
         return {
             id: item.id,
@@ -45,7 +41,7 @@ export async function loader({ request }: Route.LoaderArgs):
 const ProjectsPage = ({ loaderData }: Route.ComponentProps) => {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [currentPage, setCurrentPage] = useState(1);
-    const projectsPerPage = 10;
+    const projectsPerPage = 5;
 
     const { projects } = loaderData as { projects: Project[] };
 
@@ -66,15 +62,15 @@ const ProjectsPage = ({ loaderData }: Route.ComponentProps) => {
         <h2 className="text-3xl font-bold mb-8 text-center">
             🧑‍🏭 My projects
         </h2>
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap gap-4 mb-12">
             {categories.map((category) => (
                 <button key={category} onClick={() => {
                     setSelectedCategory(category);
                     setCurrentPage(1);
                 }}
-                    className={`px-3 py-1 rounded text-sm cursor-pointer ${selectedCategory === category
+                    className={`px-5 py-2 rounded text-md cursor-pointer font-semibold ${selectedCategory === category
                         ? 'bg-blue-600 text-white'
-                        : 'bg-gray-700 text-gray-200'
+                        : 'bg-gray-500 text-gray-100'
                         }`}
                 >
                     {category}
@@ -82,9 +78,23 @@ const ProjectsPage = ({ loaderData }: Route.ComponentProps) => {
             ))}
         </div>
         <AnimatePresence mode='wait'>
-            <motion.div layout className="grid gap-6 sm:grid-cols-2">
+            <motion.div 
+                layout 
+                className="grid gap-12 sm:grid-cols-2"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}                
+            >
                 {currentProjects.map((project) => (
-                    <motion.div key={project.id} layout>
+                    <motion.div 
+                        key={project.id} 
+                        layout
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                    >
                         <ProjectCard key={project.id} project={project} />
                     </motion.div>
                 ))}
