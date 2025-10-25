@@ -1,7 +1,13 @@
 # Alex Korobchevsky
 ## Software Engineer
-## Toronto, Ontario, Canada
+Canadian citizen, based in the beautiful city of Toronto
+I am not looking for work right now so please don't send me any reasonable offers.
+If you have an unreasonably high one let's talk!
+Freelancing under 20 hours a week only.
 
+[LinkedIn](https://www.linkedin.com/in/alex-korobchevsky-9b404010/)
+
+##
 • Solid understanding of all stages of software lifecycle: analysis, design, implementation, testing, deployment and maintenance  
 • Extensive experience in installing and configuring multi-tiered applications on various Operating Systems, Database Management Systems and Web Servers  
 • Able to multitask in fast-paced, multiple project environments and meet tight deadlines  
@@ -10,6 +16,23 @@
 • Risk, securities and trading floor experience (equity and derivatives)  
 • Exceptional analytical and problem solving skills  
 • Detail-oriented, with the ability to focus and work quickly
+
+## Key Skills
+
+| Skill | Years |
+|----------------|-------|
+| Linux | 10 |
+| Windows Server  | 8  |
+| SQL | 7 |
+| Powershell | 7 |
+| Kubernetes | 2 | 
+| Docker | 2 |
+| Ansible | 2 |
+| Shell | 7 | 
+| FIX | 3 |
+| Azure | 2 |
+| GCP | 1 | 
+| Terraform | 1 |
 
 
 ## Experience
