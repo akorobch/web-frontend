@@ -125,7 +125,7 @@ In a highly challenging environment (team of 4 responsible for all applications 
 **[TMX Group](https://www.tmx.com) 
 Toronto, Ontario, Canada**
 
-*QA and Support Engineer | Aug 2013 - Apr 2015*
+*QA and Support Analyst | Aug 2013 - Apr 2015*
 As a member of TMX Technology - Razor Risk:  
 * Provided support to external clients such as clearing houses, banks and brokerages on credit risk, market risk and counterparty risk management systems  
 * Improved the reliability of the build and automated test environment by 60%  
