@@ -208,7 +208,7 @@ Results were used for a publication in the International Journal of Theoretical 
 **2004** - Toronto Metropolitan University - Bachelor of Applied Computer Science, minor in math.
 
 ### Certifications
-
 **2025** - CKA - Certified Kubernetes Administrator - [Linux Foundation](https://training.linuxfoundation.org)
 **2024** - Associate Cloud Engineer - [Google](https://www.google.com)
+
 
