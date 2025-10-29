@@ -1,6 +1,73 @@
-const Resume = () => {
+import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import type { Route } from "./+types/index";
+import type { Skill, StrapiSkill, ResumeGig, StrapiGig } from '~/types';
+import type { StrapiResponse } from '~/types';
+
+export function meta({ }: Route.MetaArgs) {
+    return [
+        { title: "The friendly DevOps guy | Resume" },
+        { name: "description", content: "My resume CV professional life story" },
+    ];
+}
+
+const resumeDate = (date: Date) => date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+const hoverMessage = (gig: ResumeGig): string => {
+    const employmentType: string = gig.fullTime ? "full-time" : "part-time";
+    const contract: string = gig.Contract ? "contract" : '';
+    return gig.Type + " " + employmentType + " " + contract;
+}
+
+export async function loader(): Promise<{ skills: Skill[]; gigs: ResumeGig[] }> {
+    const [skillsRes, gigsRes] = await Promise.all([
+        fetch(`${import.meta.env.VITE_API_URL}/resume-skills`),
+        fetch(`${import.meta.env.VITE_API_URL}/resume-gigs?populate=*`),
+    ]);
+
+    const [skillsJson, gigsJson]: [StrapiResponse<StrapiSkill>, StrapiResponse<StrapiGig>] = await Promise.all([
+        skillsRes.json(),
+        gigsRes.json(),
+    ]);
+
+    const skills = skillsJson.data.map((skill: StrapiSkill): Skill => ({
+        id: skill.id,
+        documentId: skill.documentId,
+        name: skill.Skill,
+        alternateSkillNames: skill.AlternateSkillNames
+            ? skill.AlternateSkillNames.split(',').map((s) => s.trim())
+            : [],
+        years: skill.Years,
+    }));
+
+    const gigs = gigsJson.data.map((gig: StrapiGig): ResumeGig => ({
+        id: gig.id,
+        documentId: gig.documentId,
+        StartDate: new Date(gig.StartDate),
+        EndDate: new Date(gig.EndDate),
+        Team: gig.Team,
+        Title: gig.Title,
+        Contract: gig.contract,
+        MarkdownDescription: gig.MarkdownDescription,
+        Type: gig.Type,
+        newOrg: gig.newOrg,
+        fullTime: gig.fullTime,
+        Accomplishments: gig.Accomplishments,
+        url: gig.Logo?.url || '',
+        EmployerName: gig.EmployerName || '',
+        EmployerWebsite: gig.EmployerWebsite || '',
+    }));
+
+    return { skills, gigs };
+}
+
+const Resume = ({ loaderData }: Route.ComponentProps) => {
+    const { skills, gigs } = loaderData as { skills: Skill[]; gigs: ResumeGig[] };
+
+    console.log(gigs);
+
     return (
-        <div className="w-full mx-auto px-9 py-16 bg-gray-100 text-green-600">
+        <div className="w-full mx-auto px-9 py-16 bg-gray-100 text-green-800">
             <div>
                 <h1 className="text-2xl font-bold text-white-500 mb-4">
                     Alex Korobchevsky
@@ -74,25 +141,60 @@ const Resume = () => {
                 Key Skills
             </h2>
             <ul className="flex flex-wrap text-md text-gray-200 gap-6">
-                {
-                    [
-                        'Linux',
-                        'Windows Server',
-                        'SQL',
-                        'Powershell',
-                        'Kubernetes',
-                        'Docker',
-                        'Ansible',
-                        'Shell',
-                        'FIX',
-                        'Azure',
-                        'Terraform',
-                        'GCP'
-                    ].sort().map((tech) => (
-                        <li key={tech} 
+                {skills
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((skill) => (
+                        <li key={skill.documentId}
                             className="bg-gray-500 px-5 py-2 rounded-full"
-                            title="5 years"
-                        >{tech}</li>
+                            title={`${skill.alternateSkillNames} - ${skill.years} ${skill.years === 1 ? 'year' : 'years'}`}
+                        >{skill.name}</li>
+                    ))
+                }
+            </ul>
+            <h2 className="text-2xl font-semibold text-green-600 mt-16 mb-4"> Experience
+            </h2>
+            <ul className="text-md">
+                {gigs
+                    .sort((a, b) => b.EndDate.getTime() - a.EndDate.getTime())
+                    .map((gig) => (
+                        <li key={gig.documentId} className="mb-4 flex items-center gap-4">
+                            {gig.newOrg ? (
+                                <a href={gig.EmployerWebsite} target="_blank" rel="noopener noreferrer">
+                                    <img
+                                        src={gig.url}
+                                        alt={`${gig.Title} logo`}
+                                        className="w-12 h-12 object-contain flex-shrink-0"
+                                        title={hoverMessage(gig)}
+                                    />
+                                </a>
+                            ) : (
+                                <img
+                                    src={gig.url}
+                                    alt={`${gig.Title} logo (hidden)`}
+                                    className="w-12 h-12 object-contain flex-shrink-0 opacity-0 pointer-events-auto"
+                                    title={hoverMessage(gig)}
+                                />
+                            )}
+                            <div className="mb-6 w-[80ch]">
+                                <div className="text-green-800 font-mono font-semibold">
+                                    {resumeDate(gig.StartDate)} - {resumeDate(gig.EndDate)}
+                                </div>
+                                <div className="grid items-baseline grid-cols-[1fr_auto]">
+                                    <span className="text-green-800 font-semibold truncate">{gig.Title}</span>
+                                    <span className="text-green-800 font-semibold text-right">{gig.EmployerName}</span>
+                                </div>
+                                <div className='mt-6 mb-4'>
+                                {gig.Team && ( `As a member of ${gig.Team}:`)}
+                                </div>
+                                {gig.Accomplishments && ( 
+                                    <div>‼️{gig.Accomplishments}
+                                    </div>
+                                )}
+                                <div className='markdown mt-2 w-[80ch]'>
+                                    <ReactMarkdown>{gig.MarkdownDescription}</ReactMarkdown>
+                                </div>
+                            </div>
+                        </li>
                     ))
                 }
             </ul>
@@ -108,14 +210,14 @@ const Resume = () => {
                 className="text-blue-600"
             > Linux Foundation
             </a>
-            <br/>
+            <br />
             <strong>2024</strong> - Associate Cloud Engineer - <a
                 href="https://www.google.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600"
             > Google
-            </a>        
+            </a>
         </div>
     );
 }

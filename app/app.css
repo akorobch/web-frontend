@@ -31,3 +31,7 @@ textarea:-webkit-autofill:focus {
   box-shadow: 0 0 0px 1000px #4b5563 inset !important; /* Tailwind bg-gray-600 */
   transition: background-color 5000s ease-in-out 0s; /* prevent flash */
 }
+
+.markdown > * {
+  all: revert;
+}

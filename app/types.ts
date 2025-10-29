@@ -20,9 +20,61 @@ export type Post = {
     body: string;
 }
 
+export type Skill = {
+    id: string;
+    documentId: string;
+    name: string;
+    alternateSkillNames: Array<string>;
+    years: number;
+}
+
+export type ResumeGig = {
+    id: string;
+    documentId: string;
+    StartDate: Date;
+    EndDate: Date;
+    Team?: string;
+    Title: string;
+    Contract: boolean;
+    MarkdownDescription: string;
+    Type: string;
+    newOrg: boolean;
+    fullTime: true;
+    Accomplishments?: string;
+    url: string;
+    EmployerName: string;
+    EmployerWebsite: string;
+}
+
 export type StrapiResponse<T> = {
     data: T[]
 };
+
+export type StrapiSkill = {
+    id: string;
+    documentId: string;
+    Skill: string;
+    AlternateSkillNames: string;
+    Years: number;
+}
+
+export type StrapiGig = {
+    id: string;
+    documentId: string;
+    StartDate: Date;
+    EndDate: Date;
+    Team?: string;
+    Title: string;
+    contract: boolean;
+    MarkdownDescription: string;
+    Type: string;
+    newOrg: boolean;
+    fullTime: true;
+    Accomplishments?: string;
+    Logo?: { url: string };
+    EmployerWebsite?: string;
+    EmployerName?: string;
+}
 
 export type StrapiProject = {
     id: string;
