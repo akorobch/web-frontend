@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { Route } from "./+types/index";
 import type { Skill, StrapiSkill, ResumeGig, StrapiGig, StrapiSummary } from '~/types';
 import type { StrapiResponse } from '~/types';
@@ -9,14 +8,6 @@ export function meta({ }: Route.MetaArgs) {
         { title: "The friendly DevOps guy | Resume" },
         { name: "description", content: "My resume CV professional life story" },
     ];
-}
-
-const resumeDate = (date: Date) => date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-
-const hoverMessage = (gig: ResumeGig): string => {
-    const employmentType: string = gig.fullTime ? "full-time" : "part-time";
-    const contract: string = gig.Contract ? "contract" : '';
-    return gig.Type + " " + employmentType + " " + contract;
 }
 
 export async function loader(): Promise<{ skills: Skill[]; gigs: ResumeGig[]; summaries: string[]; }> {
@@ -70,8 +61,6 @@ export async function loader(): Promise<{ skills: Skill[]; gigs: ResumeGig[]; su
 
 const Resume = ({ loaderData }: Route.ComponentProps) => {
     const { skills, gigs, summaries } = loaderData as { skills: Skill[]; gigs: ResumeGig[]; summaries: string[]; };
-
-    const [expanded, setExpanded] = useState(false);
 
     return (
         <div className="w-full mx-auto px-9 py-16 bg-gray-100 text-green-800">
