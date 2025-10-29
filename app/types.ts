@@ -76,6 +76,12 @@ export type StrapiGig = {
     EmployerName?: string;
 }
 
+export type StrapiSummary = {
+    id: string;
+    documentId: string;
+    SummaryItem: string;
+}
+
 export type StrapiProject = {
     id: string;
     documentId: string;

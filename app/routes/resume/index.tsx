@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 import type { Route } from "./+types/index";
-import type { Skill, StrapiSkill, ResumeGig, StrapiGig } from '~/types';
+import type { Skill, StrapiSkill, ResumeGig, StrapiGig, StrapiSummary } from '~/types';
 import type { StrapiResponse } from '~/types';
+import Bio from '~/components/Bio';
 
 export function meta({ }: Route.MetaArgs) {
     return [
@@ -19,16 +19,23 @@ const hoverMessage = (gig: ResumeGig): string => {
     return gig.Type + " " + employmentType + " " + contract;
 }
 
-export async function loader(): Promise<{ skills: Skill[]; gigs: ResumeGig[] }> {
-    const [skillsRes, gigsRes] = await Promise.all([
+export async function loader(): Promise<{ skills: Skill[]; gigs: ResumeGig[]; summaries: string[]; }> {
+    const [skillsRes, gigsRes, summaryRes] = await Promise.all([
         fetch(`${import.meta.env.VITE_API_URL}/resume-skills`),
         fetch(`${import.meta.env.VITE_API_URL}/resume-gigs?populate=*`),
+        fetch(`${import.meta.env.VITE_API_URL}/resume-summaries`),
     ]);
 
-    const [skillsJson, gigsJson]: [StrapiResponse<StrapiSkill>, StrapiResponse<StrapiGig>] = await Promise.all([
+    const [skillsJson, gigsJson, summariesJson
+    ]: [StrapiResponse<StrapiSkill>, StrapiResponse<StrapiGig>, StrapiResponse<StrapiSummary>] = await Promise.all([
         skillsRes.json(),
         gigsRes.json(),
+        summaryRes.json(),
     ]);
+
+    const summaries: string[] = Array.from(summariesJson.data)
+        .sort((a, b) => Number(a.id) - Number(b.id))
+        .map((item) => item.SummaryItem.trim());
 
     const skills = skillsJson.data.map((skill: StrapiSkill): Skill => ({
         id: skill.id,
@@ -58,18 +65,18 @@ export async function loader(): Promise<{ skills: Skill[]; gigs: ResumeGig[] }> 
         EmployerWebsite: gig.EmployerWebsite || '',
     }));
 
-    return { skills, gigs };
+    return { skills, gigs, summaries };
 }
 
 const Resume = ({ loaderData }: Route.ComponentProps) => {
-    const { skills, gigs } = loaderData as { skills: Skill[]; gigs: ResumeGig[] };
+    const { skills, gigs, summaries } = loaderData as { skills: Skill[]; gigs: ResumeGig[]; summaries: string[]; };
 
-    console.log(gigs);
+    const [expanded, setExpanded] = useState(false);
 
     return (
         <div className="w-full mx-auto px-9 py-16 bg-gray-100 text-green-800">
-            <div>
-                <h1 className="text-2xl font-bold text-white-500 mb-4">
+            <div className='flex flex-col items-center items-center mb-12'>
+                <h1 className="text-2xl font-bold mb-4">
                     Alex Korobchevsky
                 </h1>
                 <h2 className="text-xl font-bold text-white-500 mb-4">
@@ -122,82 +129,8 @@ const Resume = ({ loaderData }: Route.ComponentProps) => {
             </div>
 
             {/* Bio Section */}
-            <div className="mb-12">
-                <h2 className="text-2xl font-semibold text-green-600 mb-4"> Summary
-                </h2>
-                <ul className="list-disc list-inside">
-                    <li>Solid understanding of all stages of software lifecycle: analysis, design, implementation, testing, deployment and maintenance</li>
-                    <li>Extensive experience in installing and configuring multi-tiered applications on various Operating Systems, Database Management Systems and Web Servers</li>
-                    <li>Able to multitask in fast-paced, multiple project environments and meet tight deadlines</li>
-                    <li>Experience working with the distributed mission-critical infrastructure and providing 24/7 support</li>
-                    <li>Excellent client-facing and communication skills (both written and verbal), coupled with a strong technical background</li>
-                    <li>Risk, securities and trading floor experience (equity and derivatives)</li>
-                    <li>Exceptional analytical and problem solving skills</li>
-                    <li>Detail-oriented, with the ability to focus and work quickly</li>
-                </ul>
-            </div>
+            <Bio skills={skills} gigs={gigs} summaries={summaries}/>
 
-            <h2 className="text-2xl font-semibold text-green-600 mb-4">
-                Key Skills
-            </h2>
-            <ul className="flex flex-wrap text-md text-gray-200 gap-6">
-                {skills
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((skill) => (
-                        <li key={skill.documentId}
-                            className="bg-gray-500 px-5 py-2 rounded-full"
-                            title={`${skill.alternateSkillNames} - ${skill.years} ${skill.years === 1 ? 'year' : 'years'}`}
-                        >{skill.name}</li>
-                    ))
-                }
-            </ul>
-            <h2 className="text-2xl font-semibold text-green-600 mt-16 mb-4"> Experience
-            </h2>
-            <ul className="text-md">
-                {gigs
-                    .sort((a, b) => b.EndDate.getTime() - a.EndDate.getTime())
-                    .map((gig) => (
-                        <li key={gig.documentId} className="mb-4 flex items-center gap-4">
-                            {gig.newOrg ? (
-                                <a href={gig.EmployerWebsite} target="_blank" rel="noopener noreferrer">
-                                    <img
-                                        src={gig.url}
-                                        alt={`${gig.Title} logo`}
-                                        className="w-12 h-12 object-contain flex-shrink-0"
-                                        title={hoverMessage(gig)}
-                                    />
-                                </a>
-                            ) : (
-                                <img
-                                    src={gig.url}
-                                    alt={`${gig.Title} logo (hidden)`}
-                                    className="w-12 h-12 object-contain flex-shrink-0 opacity-0 pointer-events-auto"
-                                    title={hoverMessage(gig)}
-                                />
-                            )}
-                            <div className="mb-6 w-[80ch]">
-                                <div className="text-green-800 font-mono font-semibold">
-                                    {resumeDate(gig.StartDate)} - {resumeDate(gig.EndDate)}
-                                </div>
-                                <div className="grid items-baseline grid-cols-[1fr_auto]">
-                                    <span className="text-green-800 font-semibold truncate">{gig.Title}</span>
-                                    <span className="text-green-800 font-semibold text-right">{gig.EmployerName}</span>
-                                </div>
-                                <div className='mt-6 mb-4'>
-                                {gig.Team && ( `As a member of ${gig.Team}:`)}
-                                </div>
-                                {gig.Accomplishments && ( 
-                                    <div>‼️{gig.Accomplishments}
-                                    </div>
-                                )}
-                                <div className='markdown mt-2 w-[80ch]'>
-                                    <ReactMarkdown>{gig.MarkdownDescription}</ReactMarkdown>
-                                </div>
-                            </div>
-                        </li>
-                    ))
-                }
-            </ul>
             <h2 className="text-2xl font-semibold text-green-600 mt-10 mb-4"> Education
             </h2>
             <strong>2004</strong> - Toronto Metropolitan University - Bachelor of Applied Computer Science, minor in math.

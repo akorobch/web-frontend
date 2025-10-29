@@ -18,6 +18,7 @@ const Navbar = () => {
                 <NavLink className={({ isActive }) => isActive ? active : base} to='/'>Home</NavLink>
                 <NavLink className={({ isActive }) => isActive ? active : base} to='/projects'>Projects</NavLink>
                 <NavLink className={({ isActive }) => isActive ? active : base} to='/blog'>Blog</NavLink>
+                <NavLink className={({ isActive }) => isActive ? active : base} to='/resume'>Resume</NavLink>
                 <NavLink className={({ isActive }) => isActive ? active : base} to='/about'>About</NavLink>
                 <NavLink className={({ isActive }) => isActive ? active : base} to='/contact'>Contact</NavLink>
             </div>
