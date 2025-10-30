@@ -139,7 +139,7 @@ const Resume = ({ loaderData }: Route.ComponentProps) => {
                 rel="noopener noreferrer"
                 className="text-blue-600"
             > Google
-            </a>
+            </a> 
         </div>
     );
 }
