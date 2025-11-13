@@ -57,6 +57,12 @@ const Navbar = () => {
                     </NavLink>
                     <NavLink
                         className={({ isActive }) => isActive ? active : base}
+                        to='/resume'
+                        onClick={() => setMenuOpen(false)}
+                    >Resume
+                    </NavLink>
+                    <NavLink
+                        className={({ isActive }) => isActive ? active : base}
                         to='/about'
                         onClick={() => setMenuOpen(false)}
                     >About
