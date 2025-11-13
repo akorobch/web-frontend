@@ -10,10 +10,10 @@ const ProjectCard = ({ project }: { project: Project }) => {
                 alt={project.title}
                 className='w-full h-30 object-cover' />
             <div className="p-5">
-                <h3 className="text-4xl font-bold text-blue-300 mb-2">
+                <h3 className="text-4xl font-bold text-blue-300 mb-2 line-clamp-2">
                     {project.title}
                 </h3>
-                <p className="text-md text-gray-200 mb-3 line-clamp-2 min-h-[3rem]">
+                <p className="text-md text-gray-200 mb-3 line-clamp-3 flex-1">
                     {project.description}
                 </p>
                 <div className="flex justify-between items-center text-sm text-green-200">

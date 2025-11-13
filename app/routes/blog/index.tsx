@@ -47,7 +47,9 @@ const BlogPage = ({ loaderData }: Route.ComponentProps) => {
 
     return (<div className='max-w-3xl mt-12 px-6 py-6 bg-gray-200'>
         <h2 className="text-4xl font-bold text-white-800 mb-12">
-            ✍️ Thought of the Day 🤔
+            <span className="sm:hidden">Blog</span>
+            <span className="hidden sm:inline">✍️ Thought of the Day 🤔</span>
+
         </h2>
         <PostFilter searchQuery={searchQuery}
             onSearchChange={(query) => {

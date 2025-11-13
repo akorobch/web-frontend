@@ -13,7 +13,7 @@ const FeaturedProjects = ({ projects, count = 4 }:FeaturedProjectsProps) => {
         <h2 className="text-3xl font-bold mt-24 mb-6 text-gray-600">
             🌟Featured Projects 🧑🏻‍💻
         </h2>
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project) => (
                 <ProjectCard key= { project.id } project={ project } />
             ))}
