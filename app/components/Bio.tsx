@@ -44,7 +44,7 @@ const Bio = ({ skills, gigs, summaries }: BioProps) => {
                 ))
             }
         </ul>
-        <div className="flex items-center justify-between mt-16 mb-4 w-[80ch]">
+        <div className="flex items-center justify-between mt-16 mb-4 w-full max-w-[80ch]">
             <h2 className="text-2xl font-semibold text-green-600 mt-16 mb-4"> Experience
             </h2>
             <button
@@ -77,7 +77,7 @@ const Bio = ({ skills, gigs, summaries }: BioProps) => {
                                 title={hoverMessage(gig)}
                             />
                         )}
-                        <div className="mb-6 w-[80ch]">
+                        <div className="mb-6 w-full max-w-[80ch]">
                             <div className="text-green-800 font-semibold mt-6">
                                 {resumeDate(gig.StartDate)} - {resumeDate(gig.EndDate)}
                             </div>
@@ -93,7 +93,7 @@ const Bio = ({ skills, gigs, summaries }: BioProps) => {
                                         <div className="mt-2">‼️{gig.Accomplishments}</div>
                                     )}
 
-                                    <div className="markdown mt-2 w-[80ch]">
+                                    <div className="markdown mt-2 w-full max-w-[80ch]">
                                         <ReactMarkdown>{gig.MarkdownDescription}</ReactMarkdown>
                                     </div>
                                 </div>
