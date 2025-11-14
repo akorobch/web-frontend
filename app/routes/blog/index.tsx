@@ -5,6 +5,30 @@ import PostCard from '~/components/PostCard';
 import Pagination from "~/components/Pagination";
 import PostFilter from "~/components/PostFilter";
 
+export function meta({}: Route.MetaArgs) {
+    return [
+        { title: "Blog | Tech, DevOps & Thoughts by Alex Korobchevsky" },
+        {
+            name: "description",
+            content:
+                "Explore articles by Alex Korobchevsky on DevOps, cloud engineering, finance technology, automation, and personal reflections."
+        },
+        {
+            name: "og:title",
+            content: "Alex Korobchevsky — Blog"
+        },
+        {
+            name: "og:description",
+            content:
+                "Technical deep dives, DevOps insights, cloud engineering guides, and thoughts on technology and life."
+        },
+        {
+            name: "twitter:card",
+            content: "summary_large_image"
+        }
+    ];
+}
+
 export async function loader(): Promise<{ posts: Post[] }> {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/posts?populate=image&sort=date:desc`);
 

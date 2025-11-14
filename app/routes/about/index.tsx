@@ -1,3 +1,15 @@
+import type { Route } from "./+types/index";
+
+export function meta({}: Route.MetaArgs) {
+    return [
+        { title: "About Alex Korobchevsky | DevOps, Cloud & Engineering" },
+        { 
+            name: "description", 
+            content: "Learn more about Alex Korobchevsky — DevOps engineer, cloud enthusiast, and lifelong learner with experience across financial services, automation, and infrastructure." 
+        },
+    ];
+}
+
 const AboutPage = () => {
     return (
         <div className="max-w-4xl mx-auto px-9 py-16 pg-gray-900 text-green-600">

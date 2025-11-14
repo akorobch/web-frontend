@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block private or admin folders if any
+Disallow: /admin/
+Disallow: /drafts/
+
+# Link to the static sitemap
+Sitemap: https://korobchevsky.com/sitemap.xml

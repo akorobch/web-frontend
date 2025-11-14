@@ -1,3 +1,29 @@
+import type { Route } from "./+types/index";
+
+export function meta({}: Route.MetaArgs) {
+    return [
+        { title: "Contact Alex Korobchevsky | Get in Touch" },
+        {
+            name: "description",
+            content:
+                "Reach out to Alex Korobchevsky for DevOps inquiries, collaboration opportunities, consulting, or general questions."
+        },
+        {
+            name: "og:title",
+            content: "Contact | Alex Korobchevsky"
+        },
+        {
+            name: "og:description",
+            content:
+                "Send a message to Alex Korobchevsky — DevOps engineer and cloud specialist. Available for collaboration and consulting."
+        },
+        {
+            name: "twitter:card",
+            content: "summary_large_image"
+        }
+    ];
+}
+
 const ContactPage = () => {
     const labelClass = "block text-medium font-semibold text-green-600";
     const inputClass = "w-full mt-1 px-4 py-2 border border-gray-700 rounded-lg bg-gray-500 font-semibold text-gray-100";
